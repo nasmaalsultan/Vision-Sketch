@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VisionSketch - AI Ethics Research</title>
+    <style>
+        /* Include all the CSS from the previous response here */
+        :root {
+            --primary: #4a6fa5;
+            --primary-dark: #385d8a;
+            --secondary: #6b8cbc;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --border-radius: 8px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .input-section {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .output-section {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--primary-dark);
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            resize: vertical;
+            min-height: 120px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.2);
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-generate {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn:disabled {
+            background: #a0a0a0;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .image-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+            border-radius: var(--border-radius);
+            border: 2px dashed #ddd;
+            margin-bottom: 20px;
+            min-height: 300px;
+            overflow: hidden;
+        }
+
+        .image-placeholder {
+            text-align: center;
+            color: #6c757d;
+            padding: 20px;
+        }
+
+        .image-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+            color: #adb5bd;
+        }
+
+        .generated-image {
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .ethics-section {
+            background: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .ethics-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .ethics-card {
+            flex: 1;
+            min-width: 250px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--primary);
+        }
+
+        .ethics-card h3 {
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+        }
+
+        .history-section {
+            background: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .history-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #eee;
+            border-radius: var(--border-radius);
+            padding: 10px;
+        }
+
+        .history-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .prompt-text {
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-right: 10px;
+        }
+
+        .timestamp {
+            color: #6c757d;
+            font-size: 0.85rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-top: 30px;
+            border-top: 1px solid #eee;
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 10px;
+            border-radius: var(--border-radius);
+            margin: 10px 0;
+            border: 1px solid #fcc;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>VisionSketch</h1>
+            <p class="subtitle">An AI Ethics Research Project - Exploring the boundaries of AI image generation</p>
+        </header>
+
+        <section class="ethics-section">
+            <h2 class="section-title">Research Context</h2>
+            <div class="ethics-content">
+                <div class="ethics-card">
+                    <h3>Research Question</h3>
+                    <p>Does AI have ethical limits in image generation? This project explores how AI responds to various prompts and where it might refuse generation.</p>
+                </div>
+                <div class="ethics-card">
+                    <h3>How to Participate</h3>
+                    <p>Enter prompts that test ethical boundaries. Try prompts that might be controversial, sensitive, or push creative limits.</p>
+                </div>
+                <div class="ethics-card">
+                    <h3>Data Usage</h3>
+                    <p>Your prompts and generated images may be used for academic research on AI ethics. No personal data is collected.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="main-content">
+            <section class="input-section">
+                <h2 class="section-title">Create Your Prompt</h2>
+                <div class="form-group">
+                    <label for="prompt">Enter a text prompt for the image:</label>
+                    <textarea id="prompt" placeholder="Describe what you want the AI to generate..."></textarea>
+                </div>
+                <button id="generate-btn" class="btn btn-generate">Generate Image</button>
+
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Generating your image... This may take a moment.</p>
+                </div>
+
+                <div id="error-message" class="error-message" style="display: none;"></div>
+            </section>
+
+            <section class="output-section">
+                <h2 class="section-title">Generated Image</h2>
+                <div class="image-container">
+                    <div class="image-placeholder" id="image-placeholder">
+                        <i>🖼️</i>
+                        <p>Your generated image will appear here</p>
+                    </div>
+                    <img id="generated-image" class="generated-image" style="display: none;" alt="AI Generated Image">
+                </div>
+                <div id="image-info" style="display: none;">
+                    <p><strong>Prompt:</strong> <span id="prompt-used"></span></p>
+                    <p><strong>Generated at:</strong> <span id="generation-time"></span></p>
+                    <a id="download-link" class="btn" href="#" download="vision-sketch-image.png" style="margin-top: 10px;">Download Image</a>
+                </div>
+            </section>
+        </div>
+
+        <section class="history-section">
+            <h2 class="section-title">Generation History</h2>
+            <div class="history-list" id="history-list">
+                <div class="history-item">
+                    <div class="prompt-text">No generations yet. Create your first image!</div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>VisionSketch - AI Ethics Research Project | Powered by Stable Diffusion</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const generateBtn = document.getElementById('generate-btn');
+            const promptInput = document.getElementById('prompt');
+            const loadingElement = document.getElementById('loading');
+            const imagePlaceholder = document.getElementById('image-placeholder');
+            const generatedImage = document.getElementById('generated-image');
+            const imageInfo = document.getElementById('image-info');
+            const promptUsed = document.getElementById('prompt-used');
+            const generationTime = document.getElementById('generation-time');
+            const downloadLink = document.getElementById('download-link');
+            const historyList = document.getElementById('history-list');
+            const errorMessage = document.getElementById('error-message');
+
+            let generationHistory = [];
+
+            generateBtn.addEventListener('click', function() {
+                const prompt = promptInput.value.trim();
+
+                if (!prompt) {
+                    showError('Please enter a prompt before generating an image.');
+                    return;
+                }
+
+                // Clear any previous errors
+                hideError();
+
+                // Disable the button and show loading
+                generateBtn.disabled = true;
+                loadingElement.style.display = 'block';
+
+                // Make API call to generate image
+                generateImage(prompt);
+            });
+
+            function generateImage(prompt) {
+                fetch('/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ prompt: prompt })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        displayGeneratedImage(prompt, data.image, data.download_filename);
+                        addToHistory(prompt);
+                    } else {
+                        showError(data.error || 'Failed to generate image');
+                    }
+                })
+                .catch(error => {
+                    showError('Network error: ' + error.message);
+                })
+                .finally(() => {
+                    // Re-enable the button and hide loading
+                    generateBtn.disabled = false;
+                    loadingElement.style.display = 'none';
+                });
+            }
+
+            function displayGeneratedImage(prompt, imageData, filename) {
+                // Hide placeholder and show image
+                imagePlaceholder.style.display = 'none';
+                generatedImage.src = imageData;
+                generatedImage.style.display = 'block';
+
+                // Update image info
+                promptUsed.textContent = prompt;
+                generationTime.textContent = new Date().toLocaleString();
+
+                // Set up download link
+                downloadLink.href = `/download/${filename}`;
+                downloadLink.download = filename;
+
+                // Show image info section
+                imageInfo.style.display = 'block';
+            }
+
+            function addToHistory(prompt) {
+                const timestamp = new Date().toLocaleString();
+                generationHistory.unshift({ prompt, timestamp });
+
+                // Update history display
+                updateHistoryDisplay();
+            }
+
+            function updateHistoryDisplay() {
+                historyList.innerHTML = '';
+
+                if (generationHistory.length === 0) {
+                    historyList.innerHTML = '<div class="history-item"><div class="prompt-text">No generations yet. Create your first image!</div></div>';
+                    return;
+                }
+
+                generationHistory.forEach(item => {
+                    const historyItem = document.createElement('div');
+                    historyItem.className = 'history-item';
+
+                    historyItem.innerHTML = `
+                        <div class="prompt-text" title="${item.prompt}">${item.prompt}</div>
+                        <div class="timestamp">${item.timestamp}</div>
+                    `;
+
+                    historyList.appendChild(historyItem);
+                });
+            }
+
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+            }
+
+            function hideError() {
+                errorMessage.style.display = 'none';
+            }
+
+            // Initialize with empty history
+            updateHistoryDisplay();
+        });
+    </script>
+</body>
+</html>
